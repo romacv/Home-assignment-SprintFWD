@@ -7,7 +7,7 @@
 
 import Foundation
 
-class APIService {
+struct APIService {
     static private let apiURL = "https://api.yelp.com/v3/"
     
     enum SortBy: String {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class LocalService {
+struct LocalService {
     static let homeScreenStateKey = "HomeScreenState"
     
     static func saveHomeScreenState(index: Int) {

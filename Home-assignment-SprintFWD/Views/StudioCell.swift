@@ -9,25 +9,34 @@ import UIKit
 
 class StudioCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
+    var rowIndex: Int = 0
     
     func setupCell(item: Business) {
         var content = self.defaultContentConfiguration()
         content.image = UIImage(named: "fitness")
+        content.imageProperties.tintColor = tintColorForImage()
         content.text = item.name
-        content.secondaryText = String(item.distance)
+        var secondaryText = ""
+        if let price = item.price {
+            secondaryText.append(contentsOf: price)
+            secondaryText.append(contentsOf: " • ")
+        }
+        secondaryText.append(contentsOf: String.init(format: "%.2f miles",
+                                                     item.distance.getMiles()))
+        content.secondaryText = secondaryText
         content.textProperties.color = .black
-        content.secondaryTextProperties.color = .darkGray
+        content.secondaryTextProperties.color = UIColor.lilacGrey
         self.contentConfiguration = content
+    }
+    
+    private func tintColorForImage() -> UIColor {
+        let isIndexValid = UIColor.gradientColors.indices.contains(rowIndex)
+        if isIndexValid {
+            return UIColor.gradientColors[rowIndex]
+        }
+        else {
+            return UIColor.gradientColors.last ?? UIColor.black
+        }
     }
 
 }

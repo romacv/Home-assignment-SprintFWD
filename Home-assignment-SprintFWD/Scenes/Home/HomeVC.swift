@@ -41,7 +41,7 @@ class HomeVC: UIViewController {
         return activityIndicator
     }()
     
-    let homeVM = HomeVM()
+    let viewModel = HomeVM()
     
     // MARK: - View Lifecycle -
     override func viewDidLoad() {
@@ -56,6 +56,7 @@ class HomeVC: UIViewController {
         self.title = "Fitness studios";
         // Map
         view.addSubview(mapView)
+        mapView.delegate = self
         mapView.isHidden = true
         mapView.translatesAutoresizingMaskIntoConstraints = false
         let mapViewAttributes: [NSLayoutConstraint.Attribute] = [.top, .bottom, .right, .left]
@@ -79,8 +80,8 @@ class HomeVC: UIViewController {
                                           constant: 0)
             }
         })
-        let center = CLLocationCoordinate2D(latitude: homeVM.latitude,
-                                            longitude: homeVM.longitude)
+        let center = CLLocationCoordinate2D(latitude: viewModel.latitude,
+                                            longitude: viewModel.longitude)
         let region = MKCoordinateRegion(center: center,
                                         span: MKCoordinateSpan(latitudeDelta: 0.01,
                                                                longitudeDelta: 0.01))
@@ -127,13 +128,12 @@ class HomeVC: UIViewController {
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
-        activityIndicator.startAnimating()
     }
     
     // MARK: - Actions -
     @objc func segmentedControlChanged(_ sender: UISegmentedControl) {
         let selectedIndex = sender.selectedSegmentIndex
-        homeVM.saveHomeScreenState(index: selectedIndex)
+        viewModel.saveHomeScreenState(index: selectedIndex)
         setupVisibility(selectedIndex: selectedIndex)
     }
     
@@ -143,47 +143,110 @@ class HomeVC: UIViewController {
     }
     
     private func fetchData() {
-        segmentedControl.selectedSegmentIndex = homeVM.homeScreenState().rawValue
-        setupVisibility(selectedIndex: segmentedControl.selectedSegmentIndex)
+        segmentedControl.selectedSegmentIndex = viewModel.homeScreenState().rawValue
         activityIndicator.startAnimating()
-        homeVM.fetchBusinessesData()
-        homeVM.reloadedData = { [weak self] in
+        mapView.isHidden = true
+        tableView.isHidden = true
+        viewModel.fetchBusinessesData()
+        viewModel.reloadedData = { [weak self] in
             DispatchQueue.main.async {
-                self?.activityIndicator.stopAnimating()
-                self?.setupMapPins()
-                self?.tableView.reloadData()
+                guard let weakSelf = self else {
+                    return
+                }
+                weakSelf.activityIndicator.stopAnimating()
+                weakSelf.setupVisibility(selectedIndex: weakSelf.segmentedControl.selectedSegmentIndex)
+                weakSelf.setupMapPins()
+                weakSelf.tableView.reloadData()
+                let center = CLLocationCoordinate2D(latitude: weakSelf.viewModel.latitude,
+                                                    longitude: weakSelf.viewModel.longitude)
+                let region = MKCoordinateRegion(center: center,
+                                                span: MKCoordinateSpan(latitudeDelta: 0.01,
+                                                                       longitudeDelta: 0.01))
+                weakSelf.mapView.setRegion(region, animated: true)
             }
         }
     }
     
     private func setupMapPins() {
         mapView.removeAnnotations(mapView.annotations)
-        for item in homeVM.data?.businesses ?? [] {
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = CLLocationCoordinate2D(latitude: item.coordinates.latitude,
-                                                           longitude: item.coordinates.longitude)
-            annotation.title = item.name
-            annotation.subtitle = "\(item.price ?? "")" + " • \(item.distance)"
-            mapView.addAnnotation(annotation)
+        guard let items = viewModel.data?.businesses else {
+            return
+        }
+        for item in items {
+            if let itemCoordinates = item.coordinates,
+               let latitude = itemCoordinates.latitude,
+               let longitude = itemCoordinates.longitude {
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = CLLocationCoordinate2D(latitude: latitude,
+                                                               longitude: longitude)
+                annotation.title = item.name
+                var subtitle = ""
+                if let price = item.price {
+                    subtitle.append(contentsOf: price)
+                    subtitle.append(contentsOf: " • ")
+                }
+                subtitle.append(contentsOf: String.init(format: "%.2f miles",
+                                                             item.distance.getMiles()))
+                annotation.subtitle = subtitle
+                mapView.addAnnotation(annotation)
+            }
         }
     }
 }
 
 extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return homeVM.data?.businesses.count ?? 0
+        return viewModel.data?.businesses.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "StudioCell") as? StudioCell else {
             return UITableViewCell()
         }
-        guard let item = homeVM.data?.businesses[indexPath.row] else {
+        guard let item = viewModel.data?.businesses[indexPath.row] else {
             return UITableViewCell()
         }
+        cell.rowIndex = indexPath.row
         cell.setupCell(item: item)
         return cell
     }
     
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let selectedBusiness = viewModel.data?.businesses[indexPath.row] else {
+            return
+        }
+        let detailsVC = DetailsVC()
+        detailsVC.viewModel.selectedBusiness = selectedBusiness
+        self.navigationController?.pushViewController(detailsVC, animated: true)
+    }
 }
+
+extension HomeVC: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard !(annotation is MKUserLocation) else {
+            return nil
+        }
+        let annotationIdentifier = "AnnotationIdentifier"
+        var annotationView: MKAnnotationView?
+        if let dequeuedAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier) {
+            annotationView = dequeuedAnnotationView
+            annotationView?.annotation = annotation
+        }
+        else {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
+            let button =  UIButton(type: .detailDisclosure)
+            button.tintColor = UIColor.competitionPurple
+            annotationView?.rightCalloutAccessoryView = button
+        }
+        if let annotationView = annotationView {
+            annotationView.canShowCallout = true
+            annotationView.image = UIImage(named: "pin")
+        }
+        return annotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
+    }
+}
+

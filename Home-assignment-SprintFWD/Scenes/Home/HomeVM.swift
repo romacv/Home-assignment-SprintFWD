@@ -5,8 +5,6 @@
 //  Created by Roman Resenchuk on 3/7/2022.
 //
 
-import Foundation
-
 class HomeVM {
     // MARK: - Properties
     var reloadedData: (() -> ()) = {}
@@ -25,8 +23,11 @@ class HomeVM {
         case map
         case list
     }
-    var latitude = 33.524155 // Default lat
-    var longitude = -111.905792 // Default long
+    static let defaultLatitude = 33.524155
+    static let defaultLongitude = -111.905792
+    var latitude = defaultLatitude
+    var longitude = defaultLongitude
+    let locationService = LocationService()
     
     // MARK: - Functionality
     func saveHomeScreenState(index: Int) {
@@ -38,6 +39,19 @@ class HomeVM {
     }
     
     func fetchBusinessesData() {
+        if latitude == Self.defaultLatitude ||
+            longitude == Self.defaultLongitude {
+            locationService.fetchLocationWithCompletionHandler { [weak self] latitude, longitude in
+                self?.latitude = latitude
+                self?.longitude = longitude
+                self?.requestBusinessesData()
+            }
+        }
+        else {
+            requestBusinessesData()
+        }
+    }
+    private func requestBusinessesData() {
         let radius = 1000
         let sortBy = APIService.SortBy.distance
         let categories = "fitness"
