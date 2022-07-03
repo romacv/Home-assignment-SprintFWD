@@ -15,6 +15,10 @@
 		EA53039A2870367F0006F55D /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5303982870367F0006F55D /* Colors.swift */; };
 		EA53039B2870367F0006F55D /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5303992870367F0006F55D /* APIKey.swift */; };
 		EA53039D28708F9D0006F55D /* StudioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA53039C28708F9D0006F55D /* StudioCell.swift */; };
+		EA53039F287140840006F55D /* Studio.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA53039E287140840006F55D /* Studio.swift */; };
+		EA5303A1287142650006F55D /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5303A0287142650006F55D /* APIService.swift */; };
+		EA5303A328714D760006F55D /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5303A228714D760006F55D /* HomeVM.swift */; };
+		EAC37A4D287164B400D677AB /* LocalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC37A4C287164B400D677AB /* LocalService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +32,10 @@
 		EA5303982870367F0006F55D /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		EA5303992870367F0006F55D /* APIKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		EA53039C28708F9D0006F55D /* StudioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudioCell.swift; sourceTree = "<group>"; };
+		EA53039E287140840006F55D /* Studio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Studio.swift; sourceTree = "<group>"; };
+		EA5303A0287142650006F55D /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		EA5303A228714D760006F55D /* HomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
+		EAC37A4C287164B400D677AB /* LocalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,17 +68,85 @@
 		EA530383287033BE0006F55D /* Home-assignment-SprintFWD */ = {
 			isa = PBXGroup;
 			children = (
+				EA5303A6287152680006F55D /* App */,
+				EA5303A5287152600006F55D /* Scenes */,
+				EA5303A82871527E0006F55D /* Extensions */,
+				EA5303A4287152530006F55D /* Models */,
+				EA5303A72871526F0006F55D /* Services */,
+				EA5303AB287153120006F55D /* Views */,
+			);
+			path = "Home-assignment-SprintFWD";
+			sourceTree = "<group>";
+		};
+		EA5303A4287152530006F55D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EA53039E287140840006F55D /* Studio.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		EA5303A5287152600006F55D /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				EAC37A4B2871631800D677AB /* Home */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		EA5303A6287152680006F55D /* App */ = {
+			isa = PBXGroup;
+			children = (
 				EA530384287033BE0006F55D /* AppDelegate.swift */,
 				EA530386287033BE0006F55D /* SceneDelegate.swift */,
-				EA530388287033BE0006F55D /* HomeVC.swift */,
+				EA5303AA287152B70006F55D /* Resources */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		EA5303A72871526F0006F55D /* Services */ = {
+			isa = PBXGroup;
+			children = (
 				EA5303992870367F0006F55D /* APIKey.swift */,
+				EA5303A0287142650006F55D /* APIService.swift */,
+				EAC37A4C287164B400D677AB /* LocalService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		EA5303A82871527E0006F55D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
 				EA5303982870367F0006F55D /* Colors.swift */,
-				EA53039C28708F9D0006F55D /* StudioCell.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		EA5303AA287152B70006F55D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
 				EA53038D287033BE0006F55D /* Assets.xcassets */,
 				EA53038F287033BE0006F55D /* LaunchScreen.storyboard */,
 				EA530392287033BE0006F55D /* Info.plist */,
 			);
-			path = "Home-assignment-SprintFWD";
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		EA5303AB287153120006F55D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				EA53039C28708F9D0006F55D /* StudioCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		EAC37A4B2871631800D677AB /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				EA530388287033BE0006F55D /* HomeVC.swift */,
+				EA5303A228714D760006F55D /* HomeVM.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,8 +222,12 @@
 				EA530389287033BE0006F55D /* HomeVC.swift in Sources */,
 				EA53039A2870367F0006F55D /* Colors.swift in Sources */,
 				EA530385287033BE0006F55D /* AppDelegate.swift in Sources */,
+				EAC37A4D287164B400D677AB /* LocalService.swift in Sources */,
+				EA5303A328714D760006F55D /* HomeVM.swift in Sources */,
 				EA530387287033BE0006F55D /* SceneDelegate.swift in Sources */,
 				EA53039B2870367F0006F55D /* APIKey.swift in Sources */,
+				EA53039F287140840006F55D /* Studio.swift in Sources */,
+				EA5303A1287142650006F55D /* APIService.swift in Sources */,
 				EA53039D28708F9D0006F55D /* StudioCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -288,7 +368,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Home-assignment-SprintFWD/Info.plist";
+				INFOPLIST_FILE = "Home-assignment-SprintFWD/App/Resources/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -317,7 +397,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Home-assignment-SprintFWD/Info.plist";
+				INFOPLIST_FILE = "Home-assignment-SprintFWD/App/Resources/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";

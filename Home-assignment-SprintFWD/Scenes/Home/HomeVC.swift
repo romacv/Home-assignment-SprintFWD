@@ -41,10 +41,13 @@ class HomeVC: UIViewController {
         return activityIndicator
     }()
     
+    let homeVM = HomeVM()
+    
     // MARK: - View Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        fetchData()
     }
     
     // MARK: - Setup -
@@ -76,6 +79,13 @@ class HomeVC: UIViewController {
                                           constant: 0)
             }
         })
+        let center = CLLocationCoordinate2D(latitude: homeVM.latitude,
+                                            longitude: homeVM.longitude)
+        let region = MKCoordinateRegion(center: center,
+                                        span: MKCoordinateSpan(latitudeDelta: 0.01,
+                                                               longitudeDelta: 0.01))
+        mapView.setRegion(region, animated: false)
+        mapView.showsUserLocation = true
         // TableView
         view.addSubview(tableView)
         tableView.isHidden = true
@@ -122,29 +132,56 @@ class HomeVC: UIViewController {
     
     // MARK: - Actions -
     @objc func segmentedControlChanged(_ sender: UISegmentedControl) {
-        activityIndicator.stopAnimating()
-        mapView.isHidden = sender.selectedSegmentIndex == 1
-        tableView.isHidden = sender.selectedSegmentIndex == 0
+        let selectedIndex = sender.selectedSegmentIndex
+        homeVM.saveHomeScreenState(index: selectedIndex)
+        setupVisibility(selectedIndex: selectedIndex)
+    }
+    
+    private func setupVisibility(selectedIndex: Int) {
+        mapView.isHidden = selectedIndex == 1
+        tableView.isHidden = selectedIndex == 0
+    }
+    
+    private func fetchData() {
+        segmentedControl.selectedSegmentIndex = homeVM.homeScreenState().rawValue
+        setupVisibility(selectedIndex: segmentedControl.selectedSegmentIndex)
+        activityIndicator.startAnimating()
+        homeVM.fetchBusinessesData()
+        homeVM.reloadedData = { [weak self] in
+            DispatchQueue.main.async {
+                self?.activityIndicator.stopAnimating()
+                self?.setupMapPins()
+                self?.tableView.reloadData()
+            }
+        }
+    }
+    
+    private func setupMapPins() {
+        mapView.removeAnnotations(mapView.annotations)
+        for item in homeVM.data?.businesses ?? [] {
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = CLLocationCoordinate2D(latitude: item.coordinates.latitude,
+                                                           longitude: item.coordinates.longitude)
+            annotation.title = item.name
+            annotation.subtitle = "\(item.price ?? "")" + " • \(item.distance)"
+            mapView.addAnnotation(annotation)
+        }
     }
 }
 
 extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return homeVM.data?.businesses.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "StudioCell") as? StudioCell else {
             return UITableViewCell()
         }
-        var content = cell.defaultContentConfiguration()
-        content.image = UIImage(named: "fitness")
-        content.text = "Abc"
-        content.secondaryText = "Def"
-        content.textProperties.color = .black
-        content.secondaryTextProperties.color = .darkGray
-        cell.contentConfiguration = content
-        
+        guard let item = homeVM.data?.businesses[indexPath.row] else {
+            return UITableViewCell()
+        }
+        cell.setupCell(item: item)
         return cell
     }
     

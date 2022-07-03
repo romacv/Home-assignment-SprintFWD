@@ -19,5 +19,15 @@ class StudioCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    func setupCell(item: Business) {
+        var content = self.defaultContentConfiguration()
+        content.image = UIImage(named: "fitness")
+        content.text = item.name
+        content.secondaryText = String(item.distance)
+        content.textProperties.color = .black
+        content.secondaryTextProperties.color = .darkGray
+        self.contentConfiguration = content
+    }
 
 }
