@@ -145,6 +145,15 @@ class DetailsVC: UIViewController {
                 self?.mapView.addOverlay(polyline)
             }
         }
+        self.viewModel.showError = { [weak self] in
+            let alert = UIAlertController(title: "",
+                                          message: "Error loading details",
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK",
+                                          style: .cancel))
+            self.present(alert,
+                         animated: true)
+        }
     }
     
     // MARK: - Actions -

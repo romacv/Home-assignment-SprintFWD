@@ -165,6 +165,15 @@ class HomeVC: UIViewController {
                 weakSelf.mapView.setRegion(region, animated: true)
             }
         }
+        viewModel.showError = { [weak self] in
+            let alert = UIAlertController(title: "",
+                                          message: "Error loading studios",
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK",
+                                          style: .cancel))
+            self?.present(alert,
+                         animated: true)
+        }
     }
     
     private func setupMapPins() {
