@@ -31,16 +31,17 @@ class HomeVM {
     
     // MARK: - Functionality
     func saveHomeScreenState(index: Int) {
-        LocalService.saveHomeScreenState(index: index)
+        StorageService.saveHomeScreenState(index: index)
     }
     
     func homeScreenState() -> HomeScreenState {
-        return HomeScreenState(rawValue: LocalService.fetchHomeSegmentedPosition()) ?? .map
+        return HomeScreenState(rawValue: StorageService.fetchHomeSegmentedPosition()) ?? .map
     }
     
     func fetchBusinessesData() {
         if latitude == Self.defaultLatitude ||
             longitude == Self.defaultLongitude {
+            requestBusinessesData()
             locationService.fetchLocationWithCompletionHandler { [weak self] latitude, longitude in
                 self?.latitude = latitude
                 self?.longitude = longitude
@@ -51,6 +52,7 @@ class HomeVM {
             requestBusinessesData()
         }
     }
+    
     private func requestBusinessesData() {
         let radius = 1000
         let sortBy = APIService.SortBy.distance

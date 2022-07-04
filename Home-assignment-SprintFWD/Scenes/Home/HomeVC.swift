@@ -11,6 +11,9 @@ import MapKit
 class HomeVC: UIViewController {
     
     // MARK: - Properties -
+    let viewModel = HomeVM()
+    
+    // MARK: - UI elements -
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero,
                                     style: .plain)
@@ -40,8 +43,6 @@ class HomeVC: UIViewController {
         activityIndicator.hidesWhenStopped = true
         return activityIndicator
     }()
-    
-    let viewModel = HomeVM()
     
     // MARK: - View Lifecycle -
     override func viewDidLoad() {
@@ -130,16 +131,31 @@ class HomeVC: UIViewController {
         ])
     }
     
-    // MARK: - Actions -
-    @objc func segmentedControlChanged(_ sender: UISegmentedControl) {
-        let selectedIndex = sender.selectedSegmentIndex
-        viewModel.saveHomeScreenState(index: selectedIndex)
-        setupVisibility(selectedIndex: selectedIndex)
-    }
-    
-    private func setupVisibility(selectedIndex: Int) {
-        mapView.isHidden = selectedIndex == 1
-        tableView.isHidden = selectedIndex == 0
+    private func setupMapPins() {
+        mapView.removeAnnotations(mapView.annotations)
+        guard let items = viewModel.data?.businesses else {
+            return
+        }
+        for item in items {
+            if let itemCoordinates = item.coordinates,
+               let latitude = itemCoordinates.latitude,
+               let longitude = itemCoordinates.longitude {
+                let annotation = IdentifiableAnnotation()
+                annotation.coordinate = CLLocationCoordinate2D(latitude: latitude,
+                                                               longitude: longitude)
+                annotation.title = item.name
+                var subtitle = ""
+                if let price = item.price {
+                    subtitle.append(contentsOf: price)
+                    subtitle.append(contentsOf: " • ")
+                }
+                subtitle.append(contentsOf: String.init(format: "%.2f miles",
+                                                        item.distance.getMiles()))
+                annotation.subtitle = subtitle
+                annotation.id = item.id
+                mapView.addAnnotation(annotation)
+            }
+        }
     }
     
     private func fetchData() {
@@ -176,35 +192,21 @@ class HomeVC: UIViewController {
         }
     }
     
-    private func setupMapPins() {
-        mapView.removeAnnotations(mapView.annotations)
-        guard let items = viewModel.data?.businesses else {
-            return
-        }
-        for item in items {
-            if let itemCoordinates = item.coordinates,
-               let latitude = itemCoordinates.latitude,
-               let longitude = itemCoordinates.longitude {
-                let annotation = IdentifiableAnnotation()
-                annotation.coordinate = CLLocationCoordinate2D(latitude: latitude,
-                                                               longitude: longitude)
-                annotation.title = item.name
-                var subtitle = ""
-                if let price = item.price {
-                    subtitle.append(contentsOf: price)
-                    subtitle.append(contentsOf: " • ")
-                }
-                subtitle.append(contentsOf: String.init(format: "%.2f miles",
-                                                        item.distance.getMiles()))
-                annotation.subtitle = subtitle
-                annotation.id = item.id
-                mapView.addAnnotation(annotation)
-            }
-        }
+    // MARK: - Actions -
+    @objc func segmentedControlChanged(_ sender: UISegmentedControl) {
+        let selectedIndex = sender.selectedSegmentIndex
+        viewModel.saveHomeScreenState(index: selectedIndex)
+        setupVisibility(selectedIndex: selectedIndex)
+    }
+    
+    private func setupVisibility(selectedIndex: Int) {
+        mapView.isHidden = selectedIndex == 1
+        tableView.isHidden = selectedIndex == 0
     }
 }
 
 extension HomeVC: UITableViewDelegate, UITableViewDataSource {
+    // MARK: - TableView -
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.data?.businesses.count ?? 0
     }
@@ -234,6 +236,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension HomeVC: MKMapViewDelegate {
+    // MARK: - MapView -
     func mapView(_ mapView: MKMapView,
                  viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard !(annotation is MKUserLocation) else {

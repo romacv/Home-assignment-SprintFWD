@@ -8,7 +8,7 @@
 import UIKit
 
 class StudioCell: UITableViewCell {
-
+    
     var rowIndex: Int = 0
     
     func setupCell(item: Business) {
@@ -38,5 +38,5 @@ class StudioCell: UITableViewCell {
             return UIColor.gradientColors.last ?? UIColor.black
         }
     }
-
+    
 }

@@ -1,5 +1,5 @@
 //
-//  MKPointAnnotation.swift
+//  IdentifiableAnnotation.swift
 //  Home-assignment-SprintFWD
 //
 //  Created by Roman Resenchuk on 4/7/2022.

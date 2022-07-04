@@ -12,6 +12,8 @@ class DetailsVC: UIViewController {
     
     // MARK: - Properties -
     let viewModel = DetailsVM()
+    
+    // MARK: - UI elements -
     private lazy var topImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = UIColor.londonSky
@@ -151,7 +153,7 @@ class DetailsVC: UIViewController {
                                           preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK",
                                           style: .cancel))
-            self.present(alert,
+            self?.present(alert,
                          animated: true)
         }
     }
@@ -188,6 +190,7 @@ class DetailsVC: UIViewController {
 }
 
 extension DetailsVC: MKMapViewDelegate {
+    // MARK: - MapView -
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(polyline: overlay as! MKPolyline)
         renderer.strokeColor = UIColor.competitionPurple

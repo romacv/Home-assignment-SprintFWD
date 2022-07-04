@@ -1,5 +1,5 @@
 //
-//  LocalService.swift
+//  StorageService.swift
 //  Home-assignment-SprintFWD
 //
 //  Created by Roman Resenchuk on 3/7/2022.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct LocalService {
+struct StorageService {
     static let homeScreenStateKey = "HomeScreenState"
     
     static func saveHomeScreenState(index: Int) {
