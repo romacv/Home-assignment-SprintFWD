@@ -46,12 +46,12 @@ class HomeVC: UIViewController {
     // MARK: - View Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViews()
+        setupUI()
         fetchData()
     }
     
     // MARK: - Setup -
-    private func setupViews() {
+    private func setupUI() {
         self.view.backgroundColor = .white
         self.title = "Fitness studios";
         // Map
@@ -186,8 +186,9 @@ class HomeVC: UIViewController {
                     subtitle.append(contentsOf: " • ")
                 }
                 subtitle.append(contentsOf: String.init(format: "%.2f miles",
-                                                             item.distance.getMiles()))
+                                                        item.distance.getMiles()))
                 annotation.subtitle = subtitle
+                annotation.identifier = item.id
                 mapView.addAnnotation(annotation)
             }
         }
@@ -222,7 +223,8 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension HomeVC: MKMapViewDelegate {
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView,
+                 viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard !(annotation is MKUserLocation) else {
             return nil
         }
@@ -233,7 +235,8 @@ extension HomeVC: MKMapViewDelegate {
             annotationView?.annotation = annotation
         }
         else {
-            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
+            annotationView = MKAnnotationView(annotation: annotation,
+                                              reuseIdentifier: annotationIdentifier)
             let button =  UIButton(type: .detailDisclosure)
             button.tintColor = UIColor.competitionPurple
             annotationView?.rightCalloutAccessoryView = button
@@ -245,8 +248,19 @@ extension HomeVC: MKMapViewDelegate {
         return annotationView
     }
     
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        
+    func mapView(_ mapView: MKMapView,
+                 annotationView view: MKAnnotationView,
+                 calloutAccessoryControlTapped control: UIControl) {
+        guard let annotation = view.annotation as? MKPointAnnotation else {
+            return
+        }
+        let identifier = annotation.identifier
+        guard let selectedBusiness = viewModel.data?.businesses.filter({$0.id == identifier}).first else {
+            return
+        }
+        let detailsVC = DetailsVC()
+        detailsVC.viewModel.selectedBusiness = selectedBusiness
+        self.navigationController?.pushViewController(detailsVC, animated: true)
     }
 }
 

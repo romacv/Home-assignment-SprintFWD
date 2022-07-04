@@ -28,6 +28,8 @@
 		EAC37A5B2871E7AF00D677AB /* Float.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC37A5A2871E7AF00D677AB /* Float.swift */; };
 		EAC37A5D2871ECF100D677AB /* DetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC37A5C2871ECF100D677AB /* DetailsVC.swift */; };
 		EAC37A602871EDE600D677AB /* DetailsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC37A5F2871EDE600D677AB /* DetailsVM.swift */; };
+		EAC37A622872B6F500D677AB /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC37A612872B6F500D677AB /* UIImageView.swift */; };
+		EAC37A642872D79000D677AB /* MKPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC37A632872D79000D677AB /* MKPointAnnotation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +56,8 @@
 		EAC37A5A2871E7AF00D677AB /* Float.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Float.swift; sourceTree = "<group>"; };
 		EAC37A5C2871ECF100D677AB /* DetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsVC.swift; sourceTree = "<group>"; };
 		EAC37A5F2871EDE600D677AB /* DetailsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsVM.swift; sourceTree = "<group>"; };
+		EAC37A612872B6F500D677AB /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
+		EAC37A632872D79000D677AB /* MKPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKPointAnnotation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +148,8 @@
 			children = (
 				EA5303982870367F0006F55D /* Colors.swift */,
 				EAC37A5A2871E7AF00D677AB /* Float.swift */,
+				EAC37A612872B6F500D677AB /* UIImageView.swift */,
+				EAC37A632872D79000D677AB /* MKPointAnnotation.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -258,6 +264,7 @@
 				EA530389287033BE0006F55D /* HomeVC.swift in Sources */,
 				EA53039A2870367F0006F55D /* Colors.swift in Sources */,
 				EAC37A592871E29500D677AB /* Location.swift in Sources */,
+				EAC37A642872D79000D677AB /* MKPointAnnotation.swift in Sources */,
 				EA530385287033BE0006F55D /* AppDelegate.swift in Sources */,
 				EAC37A4D287164B400D677AB /* LocalService.swift in Sources */,
 				EAC37A602871EDE600D677AB /* DetailsVM.swift in Sources */,
@@ -270,6 +277,7 @@
 				EA53039F287140840006F55D /* Business.swift in Sources */,
 				EAC37A5D2871ECF100D677AB /* DetailsVC.swift in Sources */,
 				EA5303A1287142650006F55D /* APIService.swift in Sources */,
+				EAC37A622872B6F500D677AB /* UIImageView.swift in Sources */,
 				EA53039D28708F9D0006F55D /* StudioCell.swift in Sources */,
 				EAC37A512871E25000D677AB /* Businesses.swift in Sources */,
 				EAC37A552871E28000D677AB /* Category.swift in Sources */,
@@ -411,6 +419,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XHN8994RK2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Home-assignment-SprintFWD/App/Resources/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -440,6 +449,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XHN8994RK2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Home-assignment-SprintFWD/App/Resources/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

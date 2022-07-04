@@ -27,7 +27,7 @@ struct APIService {
         let queryItems = [URLQueryItem(name: "latitude", value: String(latitude)),
                           URLQueryItem(name: "longitude", value: String(longitude)),
                           URLQueryItem(name: "radius", value: String(radius)),
-                          URLQueryItem(name: "sortBy", value: sortBy.rawValue),
+                          URLQueryItem(name: "sort_by", value: sortBy.rawValue),
                           URLQueryItem(name: "categories", value: String(categories))]
         var urlComps = URLComponents(string: requestURLString)!
         urlComps.queryItems = queryItems
