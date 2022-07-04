@@ -22,7 +22,7 @@ class LocationService: NSObject {
     
     private func start() {
         locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
+        locationManager.requestLocation()
     }
     
     func fetchLocationWithCompletionHandler(completion: @escaping(_ latitude: Double, _ longitude:Double) -> ()) -> Void {
@@ -38,10 +38,20 @@ extension LocationService: CLLocationManagerDelegate {
         }
         locationManagerCallback?(lastLocation.coordinate.latitude,
                                  lastLocation.coordinate.longitude)
-        locationManager.stopUpdatingHeading()
+        locationManager.stopUpdatingLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         locationManager.stopUpdatingLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if (status == CLAuthorizationStatus.denied) {
+            // The user denied authorization
+        } else if (status == CLAuthorizationStatus.authorizedWhenInUse ||
+                   status == CLAuthorizationStatus.authorizedAlways) {
+            // The user accepted authorization
+            manager.requestLocation()
+        }
     }
 }

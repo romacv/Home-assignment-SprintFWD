@@ -213,6 +213,8 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath,
+                              animated: true)
         guard let selectedBusiness = viewModel.data?.businesses[indexPath.row] else {
             return
         }

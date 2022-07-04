@@ -422,7 +422,7 @@
 				DEVELOPMENT_TEAM = XHN8994RK2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Home-assignment-SprintFWD/App/Resources/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = RomanResenchuk;
+				INFOPLIST_KEY_CFBundleDisplayName = "r@resrom.com";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Access to geolocation is needed to determine the nearest fitness studios";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
@@ -430,6 +430,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -454,7 +455,7 @@
 				DEVELOPMENT_TEAM = XHN8994RK2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Home-assignment-SprintFWD/App/Resources/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = RomanResenchuk;
+				INFOPLIST_KEY_CFBundleDisplayName = "r@resrom.com";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Access to geolocation is needed to determine the nearest fitness studios";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
@@ -462,6 +463,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
