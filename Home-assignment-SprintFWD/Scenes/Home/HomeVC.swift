@@ -176,7 +176,7 @@ class HomeVC: UIViewController {
             if let itemCoordinates = item.coordinates,
                let latitude = itemCoordinates.latitude,
                let longitude = itemCoordinates.longitude {
-                let annotation = MKPointAnnotation()
+                let annotation = IdentifiableAnnotation()
                 annotation.coordinate = CLLocationCoordinate2D(latitude: latitude,
                                                                longitude: longitude)
                 annotation.title = item.name
@@ -188,7 +188,7 @@ class HomeVC: UIViewController {
                 subtitle.append(contentsOf: String.init(format: "%.2f miles",
                                                         item.distance.getMiles()))
                 annotation.subtitle = subtitle
-                annotation.identifier = item.id
+                annotation.id = item.id
                 mapView.addAnnotation(annotation)
             }
         }
@@ -232,7 +232,7 @@ extension HomeVC: MKMapViewDelegate {
         var annotationView: MKAnnotationView?
         if let dequeuedAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier) {
             annotationView = dequeuedAnnotationView
-            annotationView?.annotation = annotation
+            annotationView?.annotation = annotation as! IdentifiableAnnotation
         }
         else {
             annotationView = MKAnnotationView(annotation: annotation,
@@ -251,16 +251,17 @@ extension HomeVC: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView,
                  annotationView view: MKAnnotationView,
                  calloutAccessoryControlTapped control: UIControl) {
-        guard let annotation = view.annotation as? MKPointAnnotation else {
+        guard let annotation = view.annotation as? IdentifiableAnnotation else {
             return
         }
-        let identifier = annotation.identifier
-        guard let selectedBusiness = viewModel.data?.businesses.filter({$0.id == identifier}).first else {
+        let annotationId = annotation.id
+        guard let selectedBusiness = viewModel.data?.businesses.filter({$0.id == annotationId}).first else {
             return
         }
         let detailsVC = DetailsVC()
         detailsVC.viewModel.selectedBusiness = selectedBusiness
-        self.navigationController?.pushViewController(detailsVC, animated: true)
+        self.navigationController?.pushViewController(detailsVC,
+                                                      animated: true)
     }
 }
 
